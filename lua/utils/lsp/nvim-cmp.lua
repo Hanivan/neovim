@@ -1,85 +1,71 @@
-local luasnip = require("luasnip")
 local cmp = require("cmp")
-local lspkind = require("lspkind")
-
-local feedkeys = vim.fn.feedkeys
-local pumvisible = vim.fn.pumvisible
-local replace_termcodes = vim.api.nvim_replace_termcodes
-local next_item_keys = replace_termcodes("<c-n>", true, true, true)
-local prev_item_keys = replace_termcodes("<c-p>", true, true, true)
-local backspace_keys = replace_termcodes("<tab>", true, true, true)
-local snippet_next_keys = replace_termcodes("<plug>luasnip-expand-or-jump", true, true, true)
-local snippet_prev_keys = replace_termcodes("<plug>luasnip-jump-prev", true, true, true)
-
-local function check_backspace()
-	local col = vim.fn.col(".") - 1
-	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
-end
+local luasnip = require("luasnip")
 
 cmp.setup({
 
 	completion = {
-		autocomplete = { cmp.TriggerEvent.TextChanged },
-	},
-
-	documentation = {
-		border = "single",
-		winhighlight = "NormalFloat:CmpDocumentation,FloatBorder:CmpDocumentationBorder",
+		-- completeopt = 'menu,menuone,noinsert',
 	},
 
 	snippet = {
 		expand = function(args)
-			luasnip.lsp_expand(args.body)
+			require("luasnip").lsp_expand(args.body)
+		end,
+	},
+
+	formatting = {
+		format = function(entry, vim_item)
+			-- fancy icons and a name of kind
+			vim_item.kind = require("lspkind").presets.default[vim_item.kind]
+
+			-- set a name for each source
+			vim_item.menu = ({
+				buffer = "[Buff]",
+				nvim_lsp = "[LSP]",
+				luasnip = "[LuaSnip]",
+				nvim_lua = "[Lua]",
+				latex_symbols = "[Latex]",
+			})[entry.source.name]
+			return vim_item
 		end,
 	},
 
 	sources = {
 		{ name = "nvim_lsp" },
+		{ name = "nvim_lua" },
 		{ name = "luasnip" },
+	},
+
+	documentation = {
+		border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
 	},
 
 	mapping = {
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<C-e>"] = cmp.mapping.close(),
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		["<CR>"] = cmp.mapping.confirm({
+			behavior = cmp.ConfirmBehavior.Replace,
+			select = false,
+		}),
+
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
 			elseif luasnip.expand_or_jumpable() then
-				feedkeys(snippet_next_keys, "")
-			elseif check_backspace() then
-				feedkeys(backspace_keys, "n")
+				luasnip.expand_or_jump()
 			else
 				fallback()
 			end
-		end, {
-			"i",
-			"s",
-		}),
+		end, { "i", "s" }),
+
 		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
 			elseif luasnip.jumpable(-1) then
-				feedkeys(snippet_prev_keys, "")
+				luasnip.jump(-1)
 			else
 				fallback()
 			end
-		end, {
-			"i",
-			"s",
-		}),
-	},
-
-	formatting = {
-		format = lspkind.cmp_format({
-			with_text = true,
-			maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-
-			-- The function below will be called before any actual modifications from lspkind
-			-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-			before = function(entry, vim_item)
-				return vim_item
-			end,
-		}),
+		end, { "i", "s" }),
 	},
 })

@@ -78,12 +78,9 @@ _G.packer_plugins = {
     url = "https://github.com/numToStr/Comment.nvim"
   },
   LuaSnip = {
-    load_after = {
-      ["nvim-cmp"] = true
-    },
-    loaded = false,
-    needs_bufread = true,
-    path = "/home/haniv/.local/share/nvim/site/pack/packer/opt/LuaSnip",
+    config = { "require('utils.plugins.luasnip')" },
+    loaded = true,
+    path = "/home/haniv/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
   ["bufferline.nvim"] = {
@@ -143,6 +140,11 @@ _G.packer_plugins = {
     only_cond = false,
     path = "/home/haniv/.local/share/nvim/site/pack/packer/opt/filetype.nvim",
     url = "https://github.com/nathom/filetype.nvim"
+  },
+  ["friendly-snippets"] = {
+    loaded = true,
+    path = "/home/haniv/.local/share/nvim/site/pack/packer/start/friendly-snippets",
+    url = "https://github.com/rafamadriz/friendly-snippets"
   },
   ["gitsigns.nvim"] = {
     config = { "require('utils.plugins.gitsigns')" },
@@ -210,7 +212,7 @@ _G.packer_plugins = {
     url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
-    after = { "cmp-nvim-lsp", "nvim-autopairs", "nvim-lsp-installer", "nvim-lspconfig", "cmp_luasnip", "LuaSnip" },
+    after = { "cmp-nvim-lsp", "nvim-autopairs", "nvim-lsp-installer", "nvim-lspconfig", "cmp_luasnip" },
     config = { "require('utils.lsp.nvim-cmp')" },
     load_after = {
       ["lspkind-nvim"] = true
@@ -348,13 +350,6 @@ _G.packer_plugins = {
     path = "/home/haniv/.local/share/nvim/site/pack/packer/opt/vim-php-cs-fixer",
     url = "https://github.com/stephpy/vim-php-cs-fixer"
   },
-  ["vim-react-snippets"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/home/haniv/.local/share/nvim/site/pack/packer/opt/vim-react-snippets",
-    url = "https://github.com/mlaursen/vim-react-snippets"
-  },
   ["vim-startuptime"] = {
     commands = { "StartupTime" },
     loaded = false,
@@ -380,6 +375,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: LuaSnip
+time([[Config for LuaSnip]], true)
+require('utils.plugins.luasnip')
+time([[Config for LuaSnip]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
@@ -392,7 +391,7 @@ vim.cmd [[au!]]
 time([[Defining lazy-load event autocommands]], true)
 vim.cmd [[au BufWinEnter * ++once lua require("packer.load")({'vim-surround', 'nvim-autopairs', 'dashboard-nvim', 'gitsigns.nvim', 'filetype.nvim', 'nvim-lsp-installer', 'nvim-lspconfig', 'plenary.nvim', 'telescope.nvim', 'nvim-colorizer.lua', 'lualine.nvim', 'nvim-web-devicons', 'bufferline.nvim', 'lua-language-server'}, { event = "BufWinEnter *" }, _G.packer_plugins)]]
 vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'nvim-cmp', 'lspkind-nvim'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
-vim.cmd [[au BufRead * ++once lua require("packer.load")({'nvim-treesitter', 'indent-blankline.nvim', 'tagalong.vim', 'vim-php-cs-fixer', 'vim-react-snippets', 'vim-jst', 'which-key.nvim', 'ejs-syntax', 'Comment.nvim', 'vim-jsx'}, { event = "BufRead *" }, _G.packer_plugins)]]
+vim.cmd [[au BufRead * ++once lua require("packer.load")({'nvim-treesitter', 'indent-blankline.nvim', 'tagalong.vim', 'vim-php-cs-fixer', 'vim-jst', 'which-key.nvim', 'ejs-syntax', 'Comment.nvim', 'vim-jsx'}, { event = "BufRead *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles(1) end

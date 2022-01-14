@@ -42,9 +42,7 @@ else
 		-- use("EdenEast/nightfox.nvim")
 		use("NTBBloodbath/doom-one.nvim")
 		use({
-			"mlaursen/vim-react-snippets",
-			event = "BufRead",
-			opt = true,
+			"rafamadriz/friendly-snippets",
 		})
 		use({
 			"briancollins/vim-jst",
@@ -217,7 +215,7 @@ else
 		})
 		use({
 			"L3MON4D3/LuaSnip", -- Snippets plugin
-			after = "nvim-cmp",
+			config = "require('utils.plugins.luasnip')",
 		})
 	end)
 end

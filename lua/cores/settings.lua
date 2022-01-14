@@ -9,6 +9,7 @@
 
 local set = vim.opt
 local g = vim.g
+local o = vim.o
 
 -- Basic
 set.title = true
@@ -35,6 +36,7 @@ set.writebackup = false
 set.updatetime = 300
 set.visualbell = false
 set.shortmess = "atToOc"
+o.completeopt = "menuone,noselect"
 
 -- For Tab
 set.expandtab = true
