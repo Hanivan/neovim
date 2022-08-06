@@ -10,8 +10,16 @@
 local set = vim.opt
 local g = vim.g
 local o = vim.o
+local cmd = vim.cmd
 
 -- Basic
+
+cmd([[
+set formatoptions-=cro
+]])
+cmd([[
+autocmd FileType json syntax match Comment +\/\/.\+$+
+]])
 set.title = true
 set.fileencoding = "utf-8"
 set.hidden = true
@@ -36,7 +44,7 @@ set.writebackup = false
 set.updatetime = 300
 set.visualbell = false
 set.shortmess = "atToOc"
-o.completeopt = "menuone,noselect"
+set.completeopt = "menu,menuone,noselect"
 
 -- For Tab
 set.expandtab = true
@@ -53,7 +61,10 @@ set.termguicolors = true
 
 -- Colorizers
 --require("colorschemes-config.nightfox")
-require("utils.colorschemes.doom")
+--require("utils.colorschemes.doom")
+cmd([[
+colorscheme iceberg
+]])
 
 -- Python
 g.python3_host_prog = "/usr/bin/python"

@@ -7,6 +7,7 @@ local sources = {
 	formatting.clang_format,
 	formatting.stylua,
 	formatting.phpcsfixer,
+	formatting.gofmt,
 }
 
 null_ls.setup({

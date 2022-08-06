@@ -40,9 +40,23 @@ else
 		})
 
 		-- use("EdenEast/nightfox.nvim")
-		use("NTBBloodbath/doom-one.nvim")
+		-- use("NTBBloodbath/doom-one.nvim")
+		use("cocopon/iceberg.vim")
 		use({
 			"rafamadriz/friendly-snippets",
+			event = "BufRead",
+			opt = true,
+		})
+		use({
+			"github/copilot.vim",
+			event = "InsertEnter",
+			opt = true,
+		})
+		use({
+			"ray-x/go.nvim",
+			event = "BufRead",
+			config = "require('utils.plugins.go')",
+			opt = true,
 		})
 		use({
 			"briancollins/vim-jst",
@@ -91,6 +105,12 @@ else
 			opt = true,
 		})
 		use({
+			"iamcco/markdown-preview.nvim",
+			run = "cd app && npm install",
+			opt = true,
+			ft = { "markdown" },
+		})
+		use({
 			"norcalli/nvim-colorizer.lua",
 			event = "BufWinEnter",
 			opt = true,
@@ -127,6 +147,7 @@ else
 		use({
 			"nvim-telescope/telescope.nvim",
 			event = "BufWinEnter",
+			config = "require('utils.plugins.telescope-nvim')",
 		})
 		use({
 			"folke/which-key.nvim",
@@ -182,6 +203,7 @@ else
 		use({
 			"onsails/lspkind-nvim",
 			event = "InsertEnter",
+			after = "copilot.vim",
 			opt = true,
 		})
 		use({

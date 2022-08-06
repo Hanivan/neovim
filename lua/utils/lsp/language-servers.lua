@@ -38,7 +38,7 @@ end
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
-local servers = { "emmet_ls", "clangd", "pyright", "bashls", "sumneko_lua", "intelephense" }
+local servers = { "emmet_ls", "ember", "clangd", "pyright", "bashls", "sumneko_lua", "intelephense" }
 
 -- for _, lsp in ipairs(servers) do
 -- 	nvim_lsp[lsp].setup({
